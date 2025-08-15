@@ -1,3 +1,4 @@
+import os
 from numpy import mask_indices
 from utils.videos import *
 import matplotlib.pyplot as plt
@@ -16,10 +17,15 @@ class LVWallDataset(Dataset):
     def __init__(self,
         data_folder='/home/vishc2/tuannm/echo/hmcqu-4c-lv-wall-masks/masks_jpg',
         split = 'train', img_size=(224, 224),
-        id_fold = 0, n_fold=5, transform=None):
+        id_fold = 0, n_fold=5, transform=None,
+        fn_csv=None, image_folder=None):
 
         self.img_size = img_size        
-        self.data_folds = get_file_segmentation(data_folder)
+        # 允许通过环境变量覆盖数据路径
+        mask_folder = os.environ.get('MI_MASK_FOLDER', data_folder)
+        csv_path = os.environ.get('MI_FN_CSV', fn_csv if fn_csv is not None else '/home/vishc2/tuannm/echo/vishc-echo/src/lv-motion/data_cycle_292_0307.csv')
+        image_root = os.environ.get('MI_IMAGE_FOLDER', image_folder)
+        self.data_folds = get_file_segmentation(mask_folder, fn_csv=csv_path, image_folder=image_root)
     
         # self.augmentation = self.__strong_aug(p=0.8)
         self.mi = []
