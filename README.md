@@ -1,28 +1,37 @@
-## Set up enviroments
-1. Fill out the library in enviroment.yml file
-2. Create condata enviroments with prefix
-``` conda env create --prefix ./env --file environment.yml ```
-3. Activate enviroments
-``` conda activate ./env # activate the environment ```
-4. Update package
-``` conda env update --prefix ./env --file environment.yml --prune # update the environment ```
+## 仓库信息
 
-## Myocardial Infarction Detection in Echocardiography
+本项目的 GitHub 仓库： [ou-jiajian/mi-detection-echo](https://github.com/ou-jiajian/mi-detection-echo)
 
-![Alt text](lv-6segments.png)
-- (A) Segmentation mask of the LV wall for both an end-systolic frame and an end-diastolic frame, with one case representing an MI and the other case representing a non-MI case in the HCM-QU dataset. 
-- (B) Six segments of the LV wall may be used to detect signs of an MI. The label “L” represents the length from the bottom left corner to the apex of the LV, and the label “R” represents the length from the bottom right corner to the apex of the LV.
+## 环境配置（Conda）
+1. 在 `environment.yml` 中完善依赖库
+2. 创建环境（前缀在当前目录的 `./env`）
+```bash
+conda env create --prefix ./env --file environment.yml
+```
+3. 激活环境
+```bash
+conda activate ./env
+```
+4. 更新依赖
+```bash
+conda env update --prefix ./env --file environment.yml --prune
+```
 
+## 基于超声心动图的心肌梗死检测
 
+![左心室六分区示意图](lv-6segments.png)
+- (A) HCM-QU 数据集中的两帧（收缩末期与舒张末期）左心室（LV）心肌分割示意，分别对应 MI 与非 MI 个案。
+- (B) LV 壁被划分为 6 个分区用于 MI 迹象检测。标记 “L” 表示从左下角至心尖的长度，标记 “R” 表示从右下角至心尖的长度。
 
-## Overview of framework
+## 框架总览
 
-![Alt text](overview-framework.png)
- Overview of the proposed MI detection framework. 
-- In the phase 01 block, blue blocks represent convolutional layers, gray blocks represent transposed convolutional layers, and blue arrows represent the skip connections between the encoder and decoder.
-- In the phase 02 block, 𝔻 refers to the displacement of the heart muscle during a cardiac event, 𝕎 refers to the weight assigned to different features within the ensemble model used for detection, and 𝔼 refers to the ensemble of features used to identify MI.
+![框架总览](overview-framework.png)
+基于两阶段的 MI 检测框架：
+- Phase 01：编码器-解码器结构进行分割与表征（蓝色为卷积层，灰色为反卷积层，蓝色箭头为跳连）。
+- Phase 02：利用心肌位移 𝔻、特征权重 𝕎 与特征集 𝔼 的集成策略进行 MI 判别。
 
-Please cite the paper, as below, when using this repository:
+## 引用
+如使用本仓库，请引用如下论文：
 ```
 @article{nguyen2023ensemble,
   title={Ensemble learning of myocardial displacements for myocardial infarction detection in echocardiography},
@@ -33,3 +42,7 @@ Please cite the paper, as below, when using this repository:
   publisher={Frontiers Media SA}
 }
 ```
+
+## 说明
+- 本中文 `README.md` 为项目主要说明文档。
+- 英文副本请见 `README.en.md`。
