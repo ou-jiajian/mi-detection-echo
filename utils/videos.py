@@ -177,7 +177,8 @@ def extend_frame(clip, clip_length=32):
 def get_file_segmentation(mask_folder='/home/vishc2/tuannm/echo/hmcqu-4c-lv-wall-masks/masks_jpg', 
                           fn_csv='/home/vishc2/tuannm/echo/vishc-echo/src/lv-motion/data_cycle_292_0307.csv',
                           n_fold=5,
-                          image_folder=None):
+                          image_folder=None,
+                          video_folder=None):
     # print("start fun get_file_segmentation")
     files_img, files_mask = [], []
     # 搜索 jpg 与 dat 两类掩码文件
@@ -218,8 +219,9 @@ def get_file_segmentation(mask_folder='/home/vishc2/tuannm/echo/hmcqu-4c-lv-wall
     
     # print(data_masks.keys())
     
-    folder_videos = '/home/vishc2/tuannm/echo/vishc-echo/data/archive/HMC-QU'    
-    files_avi = glob.glob(os.path.join(folder_videos, '*A4C*', '*.avi'), recursive=True)
+    if video_folder is None:
+        video_folder = os.environ.get('MI_VIDEO_FOLDER', '/home/vishc2/tuannm/echo/vishc-echo/data/archive/HMC-QU')
+    files_avi = glob.glob(os.path.join(video_folder, '*A4C*', '*.avi'), recursive=True)
     
     video_map = {}
     cnt_found = 0
@@ -279,14 +281,14 @@ def get_file_segmentation(mask_folder='/home/vishc2/tuannm/echo/hmcqu-4c-lv-wall
         data_fold_imgs_train, data_fold_imgs_test = [], []
         
         for p in x_train_fold:
-            video_fold_train.append(video_map[p])
+            video_fold_train.append(video_map[p] if p in video_map else '')
             dp = sorted(data_masks[p], key=lambda x: int(x[0].split('/')[-1][:-4].split('__')[-1]))
             data_fold_imgs_train.append(dp)
             for p2 in dp:
                 data_fold_train.append(p2)
                 
         for p in x_test_fold:
-            video_fold_test.append(video_map[p])
+            video_fold_test.append(video_map[p] if p in video_map else '')
             dp = sorted(data_masks[p], key=lambda x: int(x[0].split('/')[-1][:-4].split('__')[-1]))
             data_fold_imgs_test.append(dp)
             for p2 in dp:
