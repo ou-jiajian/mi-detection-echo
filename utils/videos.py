@@ -176,14 +176,30 @@ def extend_frame(clip, clip_length=32):
     
 def get_file_segmentation(mask_folder='/home/vishc2/tuannm/echo/hmcqu-4c-lv-wall-masks/masks_jpg', 
                           fn_csv='/home/vishc2/tuannm/echo/vishc-echo/src/lv-motion/data_cycle_292_0307.csv',
-                          n_fold=5):
+                          n_fold=5,
+                          image_folder=None):
     # print("start fun get_file_segmentation")
     files_img, files_mask = [], []
-    # print(glob.glob(os.path.join(mask_folder, '**', '*.jpg'), recursive=True))
-    for idf, fm in enumerate(glob.glob(os.path.join(mask_folder, '**', '*.jpg'), recursive=True)):
-        fim = fm.replace('masks_jpg', 'images_jpg')
-        # print(idf, fm, fim)
-        # break
+    # 搜索 jpg 与 dat 两类掩码文件
+    mask_jpgs = glob.glob(os.path.join(mask_folder, '**', '*.jpg'), recursive=True)
+    mask_dats = glob.glob(os.path.join(mask_folder, '**', '*.dat'), recursive=True)
+    for idf, fm in enumerate(mask_jpgs + mask_dats):
+        if fm.lower().endswith('.jpg'):
+            fim = fm.replace('masks_jpg', 'images_jpg')
+        else:
+            # .dat 情况：优先使用显式提供的 image_folder 进行相对路径映射
+            if image_folder is not None:
+                try:
+                    rel_path = os.path.relpath(fm, start=mask_folder)
+                except Exception:
+                    rel_path = os.path.basename(fm)
+                base_name = os.path.splitext(rel_path)[0] + '.jpg'
+                fim = os.path.join(image_folder, base_name)
+            else:
+                # 尝试通用替换：masks -> images；保持目录层级不变
+                dname, bname = os.path.split(fm)
+                dname = dname.replace('masks_jpg', 'images_jpg').replace('masks', 'images')
+                fim = os.path.join(dname, os.path.splitext(bname)[0] + '.jpg')
         if os.path.isfile(fim):
             files_img.append(fim)
             files_mask.append(fm)

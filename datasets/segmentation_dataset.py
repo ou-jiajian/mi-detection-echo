@@ -41,18 +41,32 @@ class LVWallDataset(Dataset):
 
     def __getitem__(self, idx):
         file_img, file_mask = self.img_list[idx]
-        # print(file_img, file_mask )
         frame = cv2.imread(file_img)
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         frame_rgb = crop_and_scale(frame_rgb, self.img_size)
-        # frame_rgb = frame_rgb / 255.0
-        
-        
-        mask = cv2.imread(file_mask, flags=cv2.IMREAD_GRAYSCALE)    
-        mask = crop_and_scale(mask, self.img_size)
-        mask = np.array(mask) > 200
-        mask = np.expand_dims(mask, axis=0)
-        # print(frame_rgb.shape, mask.shape)
+
+        # 兼容 .jpg 与 .dat 掩码
+        if file_mask.lower().endswith('.dat'):
+            # 假设 .dat 为二值/整型掩码数组，可被 numpy.fromfile 读取。
+            # 需要根据真实尺寸恢复为 2D。此处按与图像同尺寸缩放后再二值化。
+            mask_raw = np.fromfile(file_mask, dtype=np.uint8)
+            # 尝试按图像大小重塑；若长度不匹配，则先猜测为正方形后再 resize 到目标尺寸
+            try:
+                mask_raw = mask_raw.reshape((frame.shape[0], frame.shape[1]))
+            except Exception:
+                side = int(np.sqrt(len(mask_raw)))
+                if side * side == len(mask_raw):
+                    mask_raw = mask_raw.reshape((side, side))
+                else:
+                    mask_raw = mask_raw.reshape((-1, 1))
+            mask = crop_and_scale(mask_raw, self.img_size)
+            mask = (np.array(mask) > 0)
+        else:
+            mask = cv2.imread(file_mask, flags=cv2.IMREAD_GRAYSCALE)
+            mask = crop_and_scale(mask, self.img_size)
+            mask = (np.array(mask) > 200)
+
+        mask = np.expand_dims(mask.astype(np.uint8), axis=0)
         return frame_rgb.transpose((2, 0, 1)), mask
 
 
