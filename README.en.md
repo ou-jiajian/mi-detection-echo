@@ -2,14 +2,88 @@
 
 GitHub repository: [ou-jiajian/mi-detection-echo](https://github.com/ou-jiajian/mi-detection-echo)
 
-## Set up environments
-1. Fill out the libraries in `environment.yml`
-2. Create conda environment with prefix
-``` conda env create --prefix ./env --file environment.yml ```
-3. Activate environment
-``` conda activate ./env # activate the environment ```
-4. Update packages
-``` conda env update --prefix ./env --file environment.yml --prune # update the environment ```
+## Quick Start
+
+### Environment Setup
+
+1. **Create conda environment**
+```bash
+conda env create -n mi_echo_py37 -f environment.yml
+```
+
+2. **Activate environment**
+```bash
+conda activate mi_echo_py37
+```
+
+3. **Install additional dependencies**
+```bash
+pip install segmentation-models-pytorch==0.2.0 scikit-learn==0.24.2 wandb==0.13.11
+```
+
+### Data Preparation
+
+Configure data path environment variables:
+```bash
+export MI_IMAGE_FOLDER="/path/to/your/images_jpg"           # Original images directory
+export MI_MASK_FOLDER="/path/to/your/mask_jpg"              # Masks directory  
+export MI_FN_CSV="/path/to/your/HMC_QU_adjusted.csv"        # CSV annotation file
+export MI_ENCODER_WEIGHTS="none"                            # or "imagenet"
+export WANDB_MODE=offline                                   # Offline mode
+export PYTHONPATH="$PWD:$PYTHONPATH"                        # Add project path
+```
+
+**Data format requirements**:
+- Images: `images_jpg/{case_ID}/frame_XXXX.jpg`
+- Masks: `mask_jpg/Mask_{case_ID}/frame_XXXX.jpg` or `.dat` format
+- CSV: Contains `fn,s1,s2,s3,s4,s5,s6,mask_available,nframe` columns
+
+### Model Training
+
+**Method 1: Use original training script (recommended)**
+```bash
+python run_original_train.py
+```
+
+**Method 2: Use simplified training script**
+```bash
+python simple_train.py
+```
+
+**Method 3: Custom training parameters**
+```python
+from easydict import EasyDict
+from segmentation.segmentation_trainer import run_n_epochs
+
+config = EasyDict(dict(
+    architecture='Unet',        # Unet, UnetPlusPlus, Linknet, FPN, PAN, DeepLabV3
+    encoder='resnet18',         # resnet18, resnet34, mobilenet_v2, efficientnet-b0
+    epoch=5,                    # Training epochs
+    fold=0,                     # Cross-validation fold (0-4)
+    batch_size=8,               # Batch size
+    img_shape=(224, 224),       # Image size
+))
+
+run_n_epochs(config)
+```
+
+### Model Validation
+
+Check trained models:
+```bash
+python check_model.py
+```
+
+### Training Results
+
+After training, model files are saved in:
+- `models/segment_ckpt_5folds/` - Original training results
+- `models/simple_train/` - Simplified training results
+
+**Performance metrics** (example):
+- Final test IoU: **84.53%**
+- Model size: 54.8MB
+- Parameters: 14.3M
 
 ## Myocardial Infarction Detection in Echocardiography
 
@@ -37,4 +111,73 @@ Please cite the paper, as below, when using this repository:
   publisher={Frontiers Media SA}
 }
 ```
+
+## Model Inference Usage
+
+Load trained model for inference:
+```python
+import torch
+from segmentation.segmentation_utils import get_model_and_optim
+from easydict import EasyDict
+
+# Configuration
+config = EasyDict(dict(
+    architecture='Unet',
+    encoder='resnet18',
+    img_shape=(224, 224),
+))
+
+# Load model
+device = torch.device('cpu')
+model, _ = get_model_and_optim(config, device=device)
+model.load_state_dict(torch.load('models/segment_ckpt_5folds/best_model.pth', map_location=device))
+model.eval()
+
+# Inference
+with torch.no_grad():
+    output = torch.sigmoid(model(input_tensor))  # input_tensor: [1, 3, 224, 224]
+    prediction = (output > 0.5).cpu().numpy()   # Binary mask
+```
+
+## Troubleshooting
+
+**Common Issues**:
+
+1. **ModuleNotFoundError: No module named 'datasets'**
+   ```bash
+   export PYTHONPATH="$PWD:$PYTHONPATH"
+   ```
+
+2. **wandb network connection timeout**
+   ```bash
+   export WANDB_MODE=offline
+   ```
+
+3. **CUDA out of memory**
+   - Reduce `batch_size`
+   - Set `MI_ENCODER_WEIGHTS="none"` to use CPU
+
+4. **Data path mismatch**
+   - Check if environment variables are set correctly
+   - Ensure data directory structure meets requirements
+
+## Project Structure
+
+```
+mi-detection-echo/
+├── datasets/                 # Data loaders
+├── segmentation/             # Segmentation models and training
+├── mi/                       # MI detection related
+├── utils/                    # Utility functions
+├── models/                   # Trained models
+├── run_original_train.py     # Original training script
+├── simple_train.py          # Simplified training script
+├── check_model.py           # Model validation script
+└── environment.yml          # Environment configuration
+```
+
+## Notes
+- This English `README.en.md` is a copy of the main documentation.
+- Chinese version: `README.md`.
+- Project has been fully adapted to support multiple data formats and training modes.
 
