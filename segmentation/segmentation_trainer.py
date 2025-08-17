@@ -6,7 +6,7 @@ import numpy as np
 from easydict import EasyDict
 from torch.utils.data import DataLoader
 from datasets.segmentation_dataset import LVWallDataset
-from .segmentation_utils import *
+from segmentation.segmentation_utils import *
 from utils.videos import AverageMeter
 # os.environ['WANDB_MODE'] = 'offline'
 
@@ -109,17 +109,18 @@ def remove_model_redundant(list_models):
 def run_n_epochs(config=None):
     # https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb#scrollTo=3vqGZbxxulea
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-    # sweep_config = {
-    #     'batch_size': 64,
-    #     'architecture': 'DeepLabV3',
-    #     'epoch': 50,
-    #     'fold': 0,
-    #     'encoder': 'mobilenet_v2',
-    #     'img_shape': (224, 224),
-    # }                 
-    # config = EasyDict(sweep_config)
-    # if True:
-    with wandb.init(config=config) as run:
+    
+    # 初始化wandb，失败时使用离线模式
+    try:
+        if os.environ.get('WANDB_MODE') == 'offline':
+            run = wandb.init(config=config, mode='offline')
+        else:
+            run = wandb.init(config=config)
+    except Exception as e:
+        print(f"wandb初始化失败，使用离线模式: {e}")
+        run = wandb.init(config=config, mode='offline')
+    
+    with run:
         config = wandb.config
     
         run.name = f'{config.architecture}__{config.encoder}__{config.epoch}__{config.fold}'
