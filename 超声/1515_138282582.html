@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8"/>
+  <link href="https://blog.csdn.net/qq_44864833/article/details/138282582" rel="canonical"/>
+  <meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+  <meta content="webkit" name="renderer">
+   <meta content="webkit" name="force-rendering">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+    <meta content="always" name="referrer"/>
+    <meta content="no-siteapp" http-equiv="Cache-Control">
+     <link href="#" media="handheld" rel="alternate"/>
+     <meta content="pc" name="applicable-device"/>
+     <link href="https://g.csdnimg.cn/static/logo/favicon32.ico" rel="shortcut icon" type="image/x-icon"/>
+     <title>
+      数据处理——avi视频数据转png图片格式代码，mat转png图片格式代码，图片裁剪成固定大小代码。_hmc-qu数据集-CSDN博客
+     </title>
+     <meta content="hmc-qu数据集" name="keywords"/>
+     <meta content='{"autorun":true,"install":true,"keyword":"hmc-qu数据集"}' name="csdn-baidu-search"/>
+     <meta content="文章浏览阅读1.1k次。数据处理代码_hmc-qu数据集" name="description"/>
+     <link href="https://csdnimg.cn/release/blogv2/dist/pc/css/detail_enter-7d4fe3c84c.min.css" rel="stylesheet" type="text/css"/>
+     <link href="https://csdnimg.cn/release/blogv2/dist/pc/themesSkin/skin-cookblue/skin-cookblue-d114b9ac23.min.css" rel="stylesheet" type="text/css"/>
+     <meta content='{"type":"0","fixModel":"1"}' name="toolbar"/>
+     <link href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css" rel="stylesheet" type="text/css"/>
+     <style>
+      .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+     </style>
+    </meta>
+   </meta>
+  </meta>
+  <style type="text/css">
+   * { user-select: text; } pre{max-height: none!important; overflow-y: hidden;}
+  </style>
+ </head>
+ <body class="nodata" style="">
+  <link href="https://csdnimg.cn/release/blogv2/dist/pc/css/blog_code-01256533b5.min.css" rel="stylesheet"/>
+  <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/chart-3456820cac.css" rel="stylesheet">
+   <link href="https://g.csdnimg.cn/lib/swiper/6.0.4/css/swiper.css" rel="stylesheet">
+    <div class="main_father clearfix d-flex justify-content-center mainfather-concision" style="height:100%;">
+     <div class="container clearfix container-concision" id="mainBox">
+      <main>
+       <div class="blog-content-box">
+        <div class="article-header-box">
+         <div class="article-header">
+          <div class="article-title-box">
+           <h1 class="title-article" id="articleContentId">
+            数据处理——avi视频数据转png图片格式代码，mat转png图片格式代码，图片裁剪成固定大小代码。
+           </h1>
+          </div>
+          <div class="article-info-box">
+           <div class="article-bar-top-box">
+            <div class="article-bar-top">
+             <img alt="" class="article-type-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/original.png"/>
+             <div class="bar-content">
+              <a class="article-vip-box" data-report-click='{"spm":"3001.10404"}' data-report-query="spm=3001.10404" data-report-view='{"spm":"3001.10404"}' href="https://mall.csdn.net/vip" target="_blank">
+               <img alt="" class="article-vip-img-new" src="https://csdnimg.cn/release/blogv2/dist/pc/img/identityVipNew.png"/>
+              </a>
+              <a class="follow-nickName vip-name" href="https://blog.csdn.net/qq_44864833" rel="noopener" target="_blank" title="Philo`">
+               Philo`
+              </a>
+              <img alt="" class="article-time-img article-heard-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/newCurrentTime2.png"/>
+              <span class="time">
+               于 2024-04-28 16:29:41 发布
+              </span>
+              <div class="read-count-box">
+               <img alt="" class="article-read-img article-heard-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/articleReadEyes2.png"/>
+               <span class="read-count">
+                阅读量1.1k
+               </span>
+               <a class="un-collection" data-report-click='{"mod":"popu_823","spm":"1001.2101.3001.4232","ab":"new"}' id="blog_detail_zk_collection">
+                <img alt="" class="article-collect-img article-heard-img un-collect-status isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect2.png" style="display:inline-block"/>
+                <img alt="" class="article-collect-img article-heard-img collect-status isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive2.png" style="display:none"/>
+                <span class="name">
+                 收藏
+                </span>
+                <span class="get-collection">
+                 1
+                </span>
+               </a>
+               <div class="read-count-box is-like" data-type="top">
+                <img alt="" class="article-read-img article-heard-img" id="is-like-imgactive-new" src="https://csdnimg.cn/release/blogv2/dist/pc/img/newHeart2023Active.png" style="display:none"/>
+                <img alt="" class="article-read-img article-heard-img" id="is-like-img-new" src="https://csdnimg.cn/release/blogv2/dist/pc/img/newHeart2023Black.png" style="display:block"/>
+                <span class="read-count" id="blog-digg-num">
+                 点赞数
+                              4
+                </span>
+               </div>
+              </div>
+             </div>
+            </div>
+            <div class="operating">
+             <a class="href-article-edit slide-toggle">
+              CC 4.0 BY-SA版权
+             </a>
+            </div>
+           </div>
+           <div class="blog-tags-box">
+            <div class="tags-box artic-tag-box">
+             <span class="label">
+              分类专栏：
+             </span>
+             <a class="tag-link" href="https://blog.csdn.net/qq_44864833/category_11903718.html" rel="noopener" target="_blank">
+              数据预处理
+             </a>
+             <span class="label">
+              文章标签：
+             </span>
+             <a class="tag-link" data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"音视频","ab":"new","extra":"{\"searchword\":\"音视频\"}"}' data-report-query="spm=1001.2101.3001.4223" data-report-view='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"音视频","ab":"new","extra":"{\"searchword\":\"音视频\"}"}' href="https://so.csdn.net/so/search/s.do?q=%E9%9F%B3%E8%A7%86%E9%A2%91&amp;t=all&amp;o=vip&amp;s=&amp;l=&amp;f=&amp;viparticle=&amp;from_tracking_code=tag_word&amp;from_code=app_blog_art" rel="noopener" target="_blank">
+              音视频
+             </a>
+             <a class="tag-link" data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"python","ab":"new","extra":"{\"searchword\":\"python\"}"}' data-report-query="spm=1001.2101.3001.4223" data-report-view='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"python","ab":"new","extra":"{\"searchword\":\"python\"}"}' href="https://so.csdn.net/so/search/s.do?q=python&amp;t=all&amp;o=vip&amp;s=&amp;l=&amp;f=&amp;viparticle=&amp;from_tracking_code=tag_word&amp;from_code=app_blog_art" rel="noopener" target="_blank">
+              python
+             </a>
+             <a class="tag-link" data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"开发语言","ab":"new","extra":"{\"searchword\":\"开发语言\"}"}' data-report-query="spm=1001.2101.3001.4223" data-report-view='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"开发语言","ab":"new","extra":"{\"searchword\":\"开发语言\"}"}' href="https://so.csdn.net/so/search/s.do?q=%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80&amp;t=all&amp;o=vip&amp;s=&amp;l=&amp;f=&amp;viparticle=&amp;from_tracking_code=tag_word&amp;from_code=app_blog_art" rel="noopener" target="_blank">
+              开发语言
+             </a>
+            </div>
+           </div>
+           <div class="slide-content-box">
+            <div class="article-copyright">
+             <div class="creativecommons">
+              版权声明：本文为博主原创文章，遵循
+              <a href="http://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" target="_blank">
+               CC 4.0 BY-SA
+              </a>
+              版权协议，转载请附上原文出处链接和本声明。
+             </div>
+             <div class="article-source-link">
+              本文链接：
+              <a href="https://blog.csdn.net/qq_44864833/article/details/138282582" target="_blank">
+               https://blog.csdn.net/qq_44864833/article/details/138282582
+              </a>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="" id="blogHuaweiyunAdvert">
+        </div>
+        <article class="baidu_pl">
+         <div class="article_content clearfix" id="article_content">
+          <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css" rel="stylesheet"/>
+          <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-8d6d398833.css" rel="stylesheet"/>
+          <div class="markdown_views prism-tomorrow-night-eighties" id="content_views">
+           <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+           </svg>
+           <h2>
+            <a id="avi2png_0">
+            </a>
+            avi2png
+           </h2>
+           <p>
+            <code>
+             处理HMC-QU数据集记录，每一个avi视频，通过xlsx中记录的初始帧和结束帧进行帧转png，保存在以avi视频名为名的文件夹下。
+            </code>
+           </p>
+           <pre><code class="prism language-cpp"><span class="token keyword">import</span> <span class="token module">os</span>
+<span class="token keyword">import</span> <span class="token module">cv2</span>
+<span class="token keyword">import</span> <span class="token module">pandas</span> as pd
+
+# 输入文件夹路径
+folder_path <span class="token operator">=</span> <span class="token char">'avidata'</span>
+
+# 输出文件夹路径
+output_folder <span class="token operator">=</span> <span class="token char">'avipng'</span>
+<span class="token keyword">if</span> <span class="token operator">not</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span><span class="token function">exists</span><span class="token punctuation">(</span>output_folder<span class="token punctuation">)</span><span class="token operator">:</span>
+    os<span class="token punctuation">.</span><span class="token function">makedirs</span><span class="token punctuation">(</span>output_folder<span class="token punctuation">)</span>
+
+# 读取Excel文件
+excel_path <span class="token operator">=</span> <span class="token char">'du.xlsx'</span>
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span><span class="token function">read_excel</span><span class="token punctuation">(</span>excel_path<span class="token punctuation">)</span>
+def <span class="token function">format_numbers</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span> end<span class="token punctuation">,</span> width<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">:</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>f<span class="token string">"{num:0{width}}"</span> <span class="token keyword">for</span> num in <span class="token function">range</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span> end <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+
+# 生成png的名字id
+save_id <span class="token operator">=</span> <span class="token function">format_numbers</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1000</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span>
+# 遍历文件夹下所有avi文件
+total <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token keyword">for</span> filename in os<span class="token punctuation">.</span><span class="token function">listdir</span><span class="token punctuation">(</span>folder_path<span class="token punctuation">)</span><span class="token operator">:</span>
+    <span class="token keyword">if</span> filename<span class="token punctuation">.</span><span class="token function">endswith</span><span class="token punctuation">(</span><span class="token string">".avi"</span><span class="token punctuation">)</span><span class="token operator">:</span>
+        video_path <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>folder_path<span class="token punctuation">,</span> filename<span class="token punctuation">)</span>
+        cap <span class="token operator">=</span> cv2<span class="token punctuation">.</span><span class="token function">VideoCapture</span><span class="token punctuation">(</span>video_path<span class="token punctuation">)</span>
+
+        # 检查视频是否成功打开
+        <span class="token keyword">if</span> <span class="token operator">not</span> cap<span class="token punctuation">.</span><span class="token function">isOpened</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span>
+            <span class="token function">print</span><span class="token punctuation">(</span>f<span class="token string">"Error: Could not open video {filename}"</span><span class="token punctuation">)</span>
+            <span class="token keyword">continue</span>
+
+        # 获取视频帧数
+        frame_count <span class="token operator">=</span> <span class="token keyword">int</span><span class="token punctuation">(</span>cap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>cv2<span class="token punctuation">.</span>CAP_PROP_FRAME_COUNT<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        video_info <span class="token operator">=</span> df<span class="token punctuation">[</span>df<span class="token punctuation">[</span><span class="token char">'name'</span><span class="token punctuation">]</span> <span class="token operator">==</span> filename<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"."</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+
+        <span class="token keyword">if</span> video_info<span class="token punctuation">.</span>empty<span class="token operator">:</span>
+            <span class="token function">print</span><span class="token punctuation">(</span>f<span class="token string">"No frame indices found for video {filename} in the Excel file."</span><span class="token punctuation">)</span>
+            <span class="token keyword">continue</span>
+
+        <span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">folder</span> <span class="token expression"><span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>output_folder<span class="token punctuation">,</span> filename<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span></span><span class="token string">"."</span><span class="token expression"><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span></span></span>
+        <span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">os</span><span class="token expression"><span class="token punctuation">.</span><span class="token function">makedirs</span><span class="token punctuation">(</span>folder<span class="token punctuation">)</span></span></span>
+
+        start_frame <span class="token operator">=</span> <span class="token keyword">int</span><span class="token punctuation">(</span>video_info<span class="token punctuation">[</span><span class="token char">'start'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        end_frame <span class="token operator">=</span> <span class="token keyword">int</span><span class="token punctuation">(</span>video_info<span class="token punctuation">[</span><span class="token char">'end'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+        # 检查索引是否在视频帧数范围内
+        <span class="token keyword">if</span> start_frame <span class="token operator">&lt;</span> <span class="token number">1</span> <span class="token operator">or</span> end_frame <span class="token operator">&gt;</span> frame_count <span class="token operator">or</span> start_frame <span class="token operator">&gt;=</span> end_frame<span class="token operator">:</span>
+            <span class="token function">print</span><span class="token punctuation">(</span>f<span class="token string">"Invalid frame indices for video {filename}. Skipping..."</span><span class="token punctuation">)</span>
+            <span class="token keyword">continue</span>
+
+        # 设置视频读取位置到起始帧
+        cap<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>cv2<span class="token punctuation">.</span>CAP_PROP_POS_FRAMES<span class="token punctuation">,</span> start_frame <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span>
+
+         # 创建输出文件夹
+        
+
+        # 读取视频帧并保存为图片
+        frame_num <span class="token operator">=</span> start_frame
+        <span class="token keyword">while</span> frame_num <span class="token operator">&lt;=</span> end_frame<span class="token operator">:</span>
+            ret<span class="token punctuation">,</span> frame <span class="token operator">=</span> cap<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token function">print</span><span class="token punctuation">(</span><span class="token function">type</span><span class="token punctuation">(</span>frame<span class="token punctuation">)</span><span class="token punctuation">,</span> frame<span class="token punctuation">.</span>shape<span class="token punctuation">)</span>
+
+            # 检查视频是否读取完毕
+        <span class="token macro property"><span class="token directive-hash">#</span>     <span class="token directive keyword">if</span> <span class="token expression"><span class="token operator">not</span> ret<span class="token operator">:</span></span></span>
+        <span class="token macro property"><span class="token directive-hash">#</span>         <span class="token directive keyword">break</span></span>
+
+        #     # 将视频帧保存为图片
+        <span class="token macro property"><span class="token directive-hash">#</span>     <span class="token directive keyword">img</span><span class="token expression">_name <span class="token operator">=</span> f</span><span class="token string">"D{frame_num}.png"</span></span>
+        <span class="token macro property"><span class="token directive-hash">#</span>     <span class="token directive keyword">img</span><span class="token expression">_name <span class="token operator">=</span> f</span><span class="token string">"D{save_id[frame_num-start_frame]}.png"</span></span>
+        <span class="token macro property"><span class="token directive-hash">#</span>     <span class="token directive keyword">img</span><span class="token expression">_path <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>folder<span class="token punctuation">,</span> img_name<span class="token punctuation">)</span></span></span>
+        <span class="token macro property"><span class="token directive-hash">#</span>     <span class="token directive keyword">cv</span><span class="token expression"><span class="token number">2.</span><span class="token function">imwrite</span><span class="token punctuation">(</span>img_path<span class="token punctuation">,</span> frame<span class="token punctuation">)</span></span></span>
+
+        #     # 打印进度
+        <span class="token macro property"><span class="token directive-hash">#</span>     <span class="token directive keyword">print</span><span class="token expression"><span class="token punctuation">(</span>f</span><span class="token string">"Frame {frame_num} of {filename} saved"</span><span class="token expression"><span class="token punctuation">)</span></span></span>
+
+        #     # 更新帧计数器
+        <span class="token macro property"><span class="token directive-hash">#</span>     <span class="token directive keyword">frame</span><span class="token expression">_num <span class="token operator">+=</span> <span class="token number">1</span></span></span>
+        <span class="token macro property"><span class="token directive-hash">#</span>     <span class="token directive keyword">total</span> <span class="token expression"><span class="token operator">+=</span> <span class="token number">1</span></span></span>
+
+        # # 释放资源
+        <span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">cap</span><span class="token expression"><span class="token punctuation">.</span><span class="token function">release</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span></span>
+
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"All videos processed successfully!"</span><span class="token punctuation">)</span>
+<span class="token function">print</span><span class="token punctuation">(</span>total<span class="token punctuation">)</span>
+
+</code></pre>
+           <h2>
+            <a id="224_91">
+            </a>
+            将图片裁剪成224大小
+           </h2>
+           <pre><code class="prism language-cpp"><span class="token char">''</span>'
+Descripttion<span class="token operator">:</span> 
+Result<span class="token operator">:</span> 
+Author<span class="token operator">:</span> Philo
+Date<span class="token operator">:</span> <span class="token number">2024</span><span class="token operator">-</span><span class="token number">04</span><span class="token operator">-</span><span class="token number">25</span> <span class="token number">08</span><span class="token operator">:</span><span class="token number">34</span><span class="token operator">:</span><span class="token number">57</span>
+LastEditors<span class="token operator">:</span> Philo
+LastEditTime<span class="token operator">:</span> <span class="token number">2024</span><span class="token operator">-</span><span class="token number">04</span><span class="token operator">-</span><span class="token number">25</span> <span class="token number">08</span><span class="token operator">:</span><span class="token number">35</span><span class="token operator">:</span><span class="token number">10</span>
+<span class="token char">''</span>'
+from PIL <span class="token keyword">import</span> <span class="token module">Image</span>
+<span class="token keyword">import</span> <span class="token module">os</span>
+
+def <span class="token function">crop_and_replace</span><span class="token punctuation">(</span>image_path<span class="token punctuation">,</span> target_size<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">224</span><span class="token punctuation">,</span> <span class="token number">224</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">:</span>
+    <span class="token keyword">try</span><span class="token operator">:</span>
+        # 打开图片文件
+        image <span class="token operator">=</span> Image<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>image_path<span class="token punctuation">)</span>
+        # 裁剪图片
+        image <span class="token operator">=</span> image<span class="token punctuation">.</span><span class="token function">resize</span><span class="token punctuation">(</span>target_size<span class="token punctuation">,</span> Image<span class="token punctuation">.</span>ANTIALIAS<span class="token punctuation">)</span>
+        # 替换原始图片
+        image<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>image_path<span class="token punctuation">)</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>f<span class="token string">"{image_path} 裁剪并替换成功"</span><span class="token punctuation">)</span>
+    except Exception as e<span class="token operator">:</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>f<span class="token string">"处理 {image_path} 时出错: {e}"</span><span class="token punctuation">)</span>
+
+def <span class="token function">crop_and_replace_in_folder</span><span class="token punctuation">(</span>folder_path<span class="token punctuation">)</span><span class="token operator">:</span>
+    # 遍历文件夹中的每个文件
+    <span class="token keyword">for</span> filename in os<span class="token punctuation">.</span><span class="token function">listdir</span><span class="token punctuation">(</span>folder_path<span class="token punctuation">)</span><span class="token operator">:</span>
+        file_path <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>folder_path<span class="token punctuation">,</span> filename<span class="token punctuation">)</span>
+        # 如果是文件夹，则递归处理子文件夹
+        <span class="token keyword">if</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span><span class="token function">isdir</span><span class="token punctuation">(</span>file_path<span class="token punctuation">)</span><span class="token operator">:</span>
+            <span class="token function">crop_and_replace_in_folder</span><span class="token punctuation">(</span>file_path<span class="token punctuation">)</span>
+        # 如果是图片文件，则裁剪并替换
+        elif filename<span class="token punctuation">.</span><span class="token function">endswith</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token char">'.jpg'</span><span class="token punctuation">,</span> <span class="token char">'.jpeg'</span><span class="token punctuation">,</span> <span class="token char">'.png'</span><span class="token punctuation">,</span> <span class="token char">'.bmp'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">:</span>
+            <span class="token function">crop_and_replace</span><span class="token punctuation">(</span>file_path<span class="token punctuation">)</span>
+
+# 指定包含图片文件的文件夹路径
+folder_path <span class="token operator">=</span> <span class="token string">"2224"</span>
+
+# 开始裁剪并替换图片
+<span class="token function">crop_and_replace_in_folder</span><span class="token punctuation">(</span>folder_path<span class="token punctuation">)</span>
+
+</code></pre>
+           <h2>
+            <a id="matpng_136">
+            </a>
+            mat转png保存
+           </h2>
+           <pre><code class="prism language-cpp"><span class="token char">''</span>'
+Descripttion<span class="token operator">:</span> 
+Result<span class="token operator">:</span> 
+Author<span class="token operator">:</span> Philo
+Date<span class="token operator">:</span> <span class="token number">2024</span><span class="token operator">-</span><span class="token number">04</span><span class="token operator">-</span><span class="token number">24</span> <span class="token number">10</span><span class="token operator">:</span><span class="token number">18</span><span class="token operator">:</span><span class="token number">47</span>
+LastEditors<span class="token operator">:</span> Philo
+LastEditTime<span class="token operator">:</span> <span class="token number">2024</span><span class="token operator">-</span><span class="token number">04</span><span class="token operator">-</span><span class="token number">24</span> <span class="token number">10</span><span class="token operator">:</span><span class="token number">41</span><span class="token operator">:</span><span class="token number">32</span>
+<span class="token char">''</span>'
+# 生成的数据放在各自的文件夹中
+<span class="token keyword">import</span> <span class="token module">scipy<span class="token punctuation">.</span>io</span> as scio
+from PIL <span class="token keyword">import</span> <span class="token module">Image</span>
+<span class="token keyword">import</span> <span class="token module">numpy</span> as np
+<span class="token keyword">import</span> <span class="token module">matplotlib<span class="token punctuation">.</span>pyplot</span> as plt
+<span class="token keyword">import</span> <span class="token module">os</span>
+
+# 根据自己任务指定文件夹的前缀和范围
+folder_prefix <span class="token operator">=</span> <span class="token string">"LV Ground-truth Segmentation Masks"</span>
+
+folders_name <span class="token operator">=</span> os<span class="token punctuation">.</span><span class="token function">listdir</span><span class="token punctuation">(</span>folder_prefix<span class="token punctuation">)</span>
+
+# 循环创建文件夹
+<span class="token keyword">for</span> name in folders_name<span class="token operator">:</span>
+    # 使用zfill方法来保证文件夹名称的固定长度
+    rename <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"."</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    folder_name <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>folder_prefix<span class="token punctuation">,</span> rename<span class="token punctuation">)</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>folder_name<span class="token punctuation">)</span>
+#     # 使用os<span class="token punctuation">.</span>makedirs来创建文件夹，exist_ok<span class="token operator">=</span>True表示如果文件夹已存在则不会引发错误
+    os<span class="token punctuation">.</span><span class="token function">makedirs</span><span class="token punctuation">(</span>folder_name<span class="token punctuation">,</span> exist_ok<span class="token operator">=</span>True<span class="token punctuation">)</span>
+
+# 生成图片名称，因为mat数据格式都有顺序
+# 从<span class="token number">1</span><span class="token operator">-</span><span class="token number">100</span>和从<span class="token number">001</span>到<span class="token number">100</span>的命名方式对图片的影响不同
+def <span class="token function">format_numbers</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span> end<span class="token punctuation">,</span> width<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">:</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>f<span class="token string">"{num:0{width}}"</span> <span class="token keyword">for</span> num in <span class="token function">range</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span> end <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+
+# 生成png的名字id
+save_id <span class="token operator">=</span> <span class="token function">format_numbers</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1000</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span>
+
+# 二值数据转到<span class="token number">0</span><span class="token operator">-</span><span class="token number">255</span>范围（可见）
+def <span class="token function">MatrixToImage</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token operator">:</span>
+    data <span class="token operator">=</span> data<span class="token operator">*</span><span class="token number">255</span>
+    new_im <span class="token operator">=</span> Image<span class="token punctuation">.</span><span class="token function">fromarray</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span><span class="token function">astype</span><span class="token punctuation">(</span>np<span class="token punctuation">.</span>uint8<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> new_im
+sum <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token keyword">for</span> tt in folders_name<span class="token operator">:</span>
+    rename <span class="token operator">=</span> tt<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"."</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    name <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>folder_prefix<span class="token punctuation">,</span> rename<span class="token punctuation">)</span>
+    path <span class="token operator">=</span> name
+    mat_data <span class="token operator">=</span> scio<span class="token punctuation">.</span><span class="token function">loadmat</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span>
+    data <span class="token operator">=</span> mat_data<span class="token punctuation">[</span><span class="token string">"predicted"</span><span class="token punctuation">]</span>  # 这里是根据自己mat文件中提取数值
+    <span class="token keyword">for</span> j in <span class="token function">range</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span>
+        sum <span class="token operator">+=</span> <span class="token number">1</span>
+        new_im <span class="token operator">=</span> <span class="token function">MatrixToImage</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        save_name <span class="token operator">=</span> save_id<span class="token punctuation">[</span>j<span class="token punctuation">]</span>
+        new_im<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>f<span class="token string">"{path}/D{save_name}.png"</span><span class="token punctuation">)</span>
+    
+<span class="token function">print</span><span class="token punctuation">(</span>sum<span class="token punctuation">)</span>
+
+</code></pre>
+          </div>
+          <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-0291849095.css" rel="stylesheet"/>
+          <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-e504d6a974.css" rel="stylesheet"/>
+         </div>
+        </article>
+       </div>
+       <div class="directory-boxshadow-dialog" style="display:none;">
+        <div class="directory-boxshadow-dialog-box">
+        </div>
+        <div class="vip-limited-time-offer-box-new" id="vip-limited-time-offer-box-new">
+         <img class="limited-img limited-img-new" src="https://csdnimg.cn/release/blogv2/dist/pc/img/vip-limited-close-newWhite.png"/>
+         <div class="vip-limited-time-top">
+          确定要放弃本次机会？
+         </div>
+         <span class="vip-limited-time-text">
+          福利倒计时
+         </span>
+         <div class="limited-time-box-new">
+          <span class="time-hour">
+          </span>
+          <i>
+           :
+          </i>
+          <span class="time-minite">
+          </span>
+          <i>
+           :
+          </i>
+          <span class="time-second">
+          </span>
+         </div>
+         <div class="limited-time-vip-box">
+          <p>
+           <img class="coupon-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/vip-limited-close-roup.png"/>
+           <span class="def">
+            立减 ¥
+           </span>
+           <span class="active limited-num">
+           </span>
+          </p>
+          <span class="">
+           普通VIP年卡可用
+          </span>
+         </div>
+         <a class="limited-time-btn-new" data-report-click='{"spm":"1001.2101.3001.9621"}' data-report-query="spm=1001.2101.3001.9621" href="https://mall.csdn.net/vip">
+          立即使用
+         </a>
+        </div>
+       </div>
+       <a id="commentBox" name="commentBox">
+       </a>
+      </main>
+     </div>
+     <div class="recommend-right1 align-items-stretch clearfix" data-type="recommend" id="rightAsideConcision">
+      <aside class="recommend-right_aside">
+       <div id="recommend-right-concision">
+        <div class="flex-column aside-box groupfile" id="groupfileConcision">
+         <div class="groupfile-div1">
+          <h3 class="aside-title">
+           目录
+          </h3>
+          <div class="align-items-stretch group_item">
+           <div class="pos-box">
+            <div class="scroll-box">
+             <div class="toc-box">
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </aside>
+     </div>
+    </div>
+    <div class="mask-dark">
+    </div>
+    <div class="skin-boxshadow">
+    </div>
+    <div class="directory-boxshadow">
+    </div>
+    <div style="display:none;">
+     <img onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);' src=""/>
+    </div>
+    <div class="keyword-dec-box" id="keywordDecBox">
+    </div>
+   </link>
+  </link>
+ </body>
+ <link href="https://g.csdnimg.cn/lib/cboxEditor/1.1.6/embed-editor.min.css" rel="stylesheet"/>
+ <link href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/codesnippet/lib/highlight/styles/tomorrow-night-eighties.css" rel="stylesheet"/>
+</html>

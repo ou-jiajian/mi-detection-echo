@@ -3,6 +3,7 @@ import glob
 import cv2
 import json
 import random
+import re
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import StratifiedKFold, train_test_split
@@ -72,7 +73,7 @@ def crop_and_scale(img: np.ndarray, res=(640, 480), bbox=None):
         padding = int(round((in_res[1] - in_res[0] / r_out) / 2))
         img = img[padding:-padding]
     
-    img = cv2.resize(img, res)
+    img = cv2.resize(img, tuple(res))
     return img
 
 
@@ -97,6 +98,31 @@ def read_file_video(path, res=None, max_len=None, bbox=None):
     cap.release()
 
     return np.array(frames[:max_len])
+
+def _extract_frame_index(path: str) -> int:
+    base_name = os.path.basename(path)
+    name_wo_ext = os.path.splitext(base_name)[0]
+    # case 1: ...__001
+    if '__' in name_wo_ext:
+        try:
+            return int(name_wo_ext.split('__')[-1])
+        except Exception:
+            pass
+    # case 2: frame_0001
+    if name_wo_ext.startswith('frame_'):
+        digits = name_wo_ext[len('frame_'):]
+        try:
+            return int(digits)
+        except Exception:
+            pass
+    # case 3: fallback to last digit group
+    m = re.findall(r'(\d+)', name_wo_ext)
+    if m:
+        try:
+            return int(m[-1])
+        except Exception:
+            return 0
+    return 0
 
 def get_data_mi(fn_csv='/home/vishc2/tuannm/echo/vishc-echo/src/lv-motion/data_cycle_292_0307.csv'):
 
@@ -186,7 +212,19 @@ def get_file_segmentation(mask_folder='/home/vishc2/tuannm/echo/hmcqu-4c-lv-wall
     mask_dats = glob.glob(os.path.join(mask_folder, '**', '*.dat'), recursive=True)
     for idf, fm in enumerate(mask_jpgs + mask_dats):
         if fm.lower().endswith('.jpg'):
-            fim = fm.replace('masks_jpg', 'images_jpg')
+            # 适配结构：mask_jpg/Mask_<ID>/frame_XXXX.jpg → images_jpg/<ID>/frame_XXXX.jpg
+            if image_folder is not None:
+                mask_dir = os.path.dirname(fm)
+                id_folder = os.path.basename(mask_dir)
+                # 去掉Mask_前缀
+                if id_folder.startswith('Mask_'):
+                    id_folder_img = id_folder[len('Mask_'):]
+                else:
+                    id_folder_img = id_folder
+                fim = os.path.join(image_folder, id_folder_img, os.path.basename(fm))
+            else:
+                # 回退：目录名替换
+                fim = fm.replace('mask_jpg/Mask_', 'images_jpg/').replace('masks_jpg', 'images_jpg')
         else:
             # .dat 情况：优先使用显式提供的 image_folder 进行相对路径映射
             if image_folder is not None:
@@ -195,7 +233,14 @@ def get_file_segmentation(mask_folder='/home/vishc2/tuannm/echo/hmcqu-4c-lv-wall
                 except Exception:
                     rel_path = os.path.basename(fm)
                 base_name = os.path.splitext(rel_path)[0] + '.jpg'
-                fim = os.path.join(image_folder, base_name)
+                # 假设与jpg同构目录，若含Mask_则移除
+                mask_dir = os.path.dirname(fm)
+                id_folder = os.path.basename(mask_dir)
+                if id_folder.startswith('Mask_'):
+                    id_folder_img = id_folder[len('Mask_'):]
+                else:
+                    id_folder_img = id_folder
+                fim = os.path.join(image_folder, id_folder_img, os.path.basename(base_name))
             else:
                 # 尝试通用替换：masks -> images；保持目录层级不变
                 dname, bname = os.path.split(fm)
@@ -207,8 +252,8 @@ def get_file_segmentation(mask_folder='/home/vishc2/tuannm/echo/hmcqu-4c-lv-wall
     # print("Number of images: {}".format(len(files_img)))
     data_masks = {}
     for idx, (f1, f2) in enumerate(zip(files_img, files_mask)):
-        # id_patient = f1.split('/')[-1].split('__')[0].split(' ')[0].split('_')[0]
-        id_patient = f1.split('/')[-1].split('__')[0]
+        # 兼容：按父目录作为患者/视频ID；若父目录是Mask_前缀则去掉
+        id_patient = os.path.basename(os.path.dirname(f1))
         # print(idx, f1, f2, id_patient)
         # break
         # break
@@ -246,7 +291,14 @@ def get_file_segmentation(mask_folder='/home/vishc2/tuannm/echo/hmcqu-4c-lv-wall
     # data_mi = {}
     dataX, dataY = [], []
     for idx, (_, dm) in enumerate(data_mi.iterrows()):
-        id_patient = dm['fn'].split('/')[-1][:-4]
+        # 兼容 CSV 中 fn 无扩展名/含扩展名/.avi 情况
+        raw_fn = str(dm['fn']).strip()
+        base = raw_fn.split('/')[-1]
+        if '.' in base:
+            name_wo_ext, ext = os.path.splitext(base)
+            id_patient = name_wo_ext
+        else:
+            id_patient = base
         data_videos[id_patient] =  dm # {'ref': dm['ref'], 'end': dm['end'], 'nframe': dm['nframe']}
         mi = 1 if (dm['s1'] + dm['s2'] + dm['s3'] + dm['s4'] + dm['s5'] + dm['s6']) > 0 else 0
         # print(idx, id_patient, mi)
@@ -282,14 +334,14 @@ def get_file_segmentation(mask_folder='/home/vishc2/tuannm/echo/hmcqu-4c-lv-wall
         
         for p in x_train_fold:
             video_fold_train.append(video_map[p] if p in video_map else '')
-            dp = sorted(data_masks[p], key=lambda x: int(x[0].split('/')[-1][:-4].split('__')[-1]))
+            dp = sorted(data_masks[p], key=lambda x: _extract_frame_index(x[0]))
             data_fold_imgs_train.append(dp)
             for p2 in dp:
                 data_fold_train.append(p2)
                 
         for p in x_test_fold:
             video_fold_test.append(video_map[p] if p in video_map else '')
-            dp = sorted(data_masks[p], key=lambda x: int(x[0].split('/')[-1][:-4].split('__')[-1]))
+            dp = sorted(data_masks[p], key=lambda x: _extract_frame_index(x[0]))
             data_fold_imgs_test.append(dp)
             for p2 in dp:
                 data_fold_test.append(p2)

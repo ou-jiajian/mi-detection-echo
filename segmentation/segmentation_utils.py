@@ -1,3 +1,4 @@
+import os
 import torch
 from easydict import EasyDict
 
@@ -36,23 +37,24 @@ def get_iou(ypred, ytrue):
 def get_model_and_optim(config, device=None):
     # print(get_model_and_optim, config)
     architecture = config.architecture
+    encoder_weights = os.getenv('MI_ENCODER_WEIGHTS', 'imagenet')
     if architecture == 'Unet':
-        model = smp.Unet(config.encoder, encoder_weights='imagenet',
+        model = smp.Unet(config.encoder, encoder_weights=encoder_weights if encoder_weights.lower() != 'none' else None,
                     in_channels=3, classes=1).to(device)
     elif architecture == 'UnetPlusPlus':
-        model = smp.UnetPlusPlus(config.encoder, encoder_weights='imagenet',
+        model = smp.UnetPlusPlus(config.encoder, encoder_weights=encoder_weights if encoder_weights.lower() != 'none' else None,
                     in_channels=3, classes=1).to(device)
     elif architecture == 'Linknet':
-        model = smp.Linknet(config.encoder, encoder_weights='imagenet',
+        model = smp.Linknet(config.encoder, encoder_weights=encoder_weights if encoder_weights.lower() != 'none' else None,
                     in_channels=3, classes=1).to(device)
     elif architecture == 'FPN':
-        model = smp.FPN(config.encoder, encoder_weights='imagenet',
+        model = smp.FPN(config.encoder, encoder_weights=encoder_weights if encoder_weights.lower() != 'none' else None,
                     in_channels=3, classes=1).to(device)
     elif architecture == 'PAN':
-        model = smp.PAN(config.encoder, encoder_weights='imagenet',
+        model = smp.PAN(config.encoder, encoder_weights=encoder_weights if encoder_weights.lower() != 'none' else None,
                     in_channels=3, classes=1).to(device)
     elif architecture == 'DeepLabV3':
-        model = smp.DeepLabV3(config.encoder, encoder_weights='imagenet',
+        model = smp.DeepLabV3(config.encoder, encoder_weights=encoder_weights if encoder_weights.lower() != 'none' else None,
                     in_channels=3, classes=1).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     return model, optimizer

@@ -6,7 +6,7 @@ import numpy as np
 from easydict import EasyDict
 from torch.utils.data import DataLoader
 from datasets.segmentation_dataset import LVWallDataset
-from segmentation_utils import *
+from .segmentation_utils import *
 from utils.videos import AverageMeter
 # os.environ['WANDB_MODE'] = 'offline'
 
@@ -127,7 +127,8 @@ def run_n_epochs(config=None):
         print("Wandb name: {}".format(wandb.name))
         
         print(f"Start wandb with config: {config}")
-        folder_exp = f'/home/vishc2/tuannm/echo/vishc-echo/models/segment_ckpt_5folds/{config.architecture}__{config.encoder}__{config.epoch:03d}__{config.fold:03d}'
+        base_dir = os.environ.get('MI_MODEL_DIR', os.path.join(os.getcwd(), 'models'))
+        folder_exp = os.path.join(base_dir, 'segment_ckpt_5folds', f'{config.architecture}__{config.encoder}__{config.epoch:03d}__{config.fold:03d}')
         
         train_set = LVWallDataset(split='train', id_fold=config.fold, img_size=config.img_shape)
         val_set = LVWallDataset(split='test', id_fold=config.fold, img_size=config.img_shape)
